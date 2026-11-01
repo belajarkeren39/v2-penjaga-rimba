@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Penjaga Rimba: Gelembung Ekosistem - IPAS Kelas V SD</title>
+
+<link rel="stylesheet" href="aset/css/game.css">
+<link rel="stylesheet" href="aset/css/animasi.css">
+</head>
+<body>
+
+<div id="game-frame"><div id="arena-container">
+  <!-- Video Kamera & Canvas Deteksi Gerak -->
+  <video id="webcam-video" playsinline muted></video>
+  <canvas id="motion-canvas"></canvas>
+
+  <!-- LAYER ANTARMUKA UTAMA -->
+  <div id="ui-layer">
+
+    <!-- ================= 1. LAYAR COVER (RASIO 16:9 PRESISI & TANPA TUMPUK) ================= -->
+    <section id="cover-screen" class="interactive-el">
+<div class="anime-atmosphere" aria-hidden="true"></div><header class="cover-header"><div class="brand-lockup"><span class="brand-mark">✦</span><span>RIMBA LAB<small>BELAJAR SAMBIL BERPETUALANG</small></span></div><nav class="cover-tools" aria-label="Menu utama"><span class="subject-badge">IPAS · KELAS V SD</span><button id="btn-toggle-audio" class="cover-tool"><span id="audio-icon">🔊</span> <span id="audio-label">Suara Aktif</span></button><button id="btn-toggle-animation" class="cover-tool" aria-pressed="true">✦ Animasi Aktif</button><button id="btn-fullscreen" class="cover-tool">⛶ Layar Penuh</button><button id="btn-open-editor" class="cover-tool">▤ Bank Soal (75)</button></nav></header>
+<main class="cover-hero"><div class="hero-copy"><div class="eyebrow"><span></span> MISI KECILMU, DAMPAK BESAR BAGI ALAM</div><h1>PENJAGA<br><span>RIMBA</span><i>✦</i></h1><h2>Gelembung Ekosistem</h2><p class="hero-description">Jelajahi rantai makanan bersama Raka &amp; Arka.<br>Arahkan tangan, pilih jawaban, dan jadilah penjaga<br>keseimbangan hutan!</p><div class="hero-actions"><button id="btn-start-main" class="start-adventure"><span>▶</span> Mulai Petualangan <span>↗</span></button><button id="btn-open-guide" class="guide-button">Cara Bermain <span>→</span></button></div><div class="hero-notes"><span>✋ Kontrol telapak tangan</span><span>⌨ Bisa klik &amp; keyboard</span></div></div>
+<div class="hero-art"><div class="anime-cast"><figure class="character-card character-raka"><div class="character-stage"><button class="character-sprite" data-character="raka" aria-label="Sapa Raka Rimba"><img class="character-image" src="aset/gambar/raka-rimba.webp" alt="Raka Rimba, karakter anime penjaga rimba" width="1024" height="1536" draggable="false"></button></div><figcaption><strong>RAKA RIMBA</strong><small>Penjelajah Hutan</small></figcaption></figure><figure class="character-card character-arka"><div class="character-stage"><button class="character-sprite" data-character="arka" aria-label="Sapa Sir Arka"><img class="character-image" src="aset/gambar/sir-arka.webp" alt="Sir Arka, karakter anime penjaga rimba" width="1024" height="1536" draggable="false"></button></div><figcaption><strong>SIR ARKA</strong><small>Kesatria Ekosistem</small></figcaption></figure></div><div class="art-caption" role="status" aria-live="polite">✦ Klik Raka atau Arka untuk menyapa!</div></div></main>
+<section class="mission-settings" aria-label="Pengaturan petualangan"><div class="settings-heading"><h3>Siapkan misimu</h3><span>Pilih tantangan yang paling cocok untukmu.</span></div><div class="settings-grid">
+<div class="setting"><label for="select-mode"><span>01</span> MODE BERMAIN</label><select id="select-mode"><option value="solo_com" selected>Solo vs COM</option><option value="pvp_duel">Duel 2P Serentak</option><option value="coop_com">2P Kooperatif</option><option value="tourney_4p">Lomba 4 Pemain</option></select></div>
+<div class="setting"><label for="select-diff"><span>02</span> TINGKAT SOAL</label><select id="select-diff"><option value="Mudah" selected>Mudah · 25 soal</option><option value="Sedang">Sedang · 25 soal</option><option value="Sulit">Sulit · 25 soal</option></select></div>
+<div class="setting"><label for="select-duration"><span>03</span> DURASI MISI</label><select id="select-duration"><option value="0">Tanpa waktu</option><option value="600" selected>10 menit</option><option value="900">15 menit</option><option value="1800">30 menit</option></select></div>
+<div class="setting"><label for="select-posture"><span>04</span> JANGKAUAN</label><select id="select-posture"><option value="seated" selected>Mode Duduk</option><option value="standing">Mode Berdiri</option></select></div>
+</div></section><footer class="cover-footer"><span>♧ Kamera diproses di perangkatmu · Tidak direkam atau dikirim ke server</span><span>EKOSISTEM &amp; RANTAI MAKANAN <b>✦</b> 75 TANTANGAN</span></footer></section>
+
+    <!-- ================= 2. MODAL KALIBRASI & LATIHAN KONTROL ================= -->
+    <section id="calibration-screen" class="interactive-el hidden">
+      <header class="sensor-setup">
+        <div><span id="calib-badge">LATIHAN TELAPAK TANGAN</span><h2 id="calib-title">Kalibrasi Kamera</h2></div>
+        <p id="camera-status-pill" role="status">Kamera belum aktif.</p>
+        <div class="camera-settings">
+          <label>Kamera<select id="select-camera"><option value="user">Depan / otomatis</option><option value="environment">Belakang</option></select></label>
+          <label>Mesin sensor<select id="select-sensor-mode"><option value="AUTO">Otomatis</option><option value="CPU">Kompatibel (CPU)</option></select></label>
+          <button id="btn-mirror-camera" class="btn-game" type="button">Cermin: aktif</button>
+          <button id="btn-retry-cam" class="btn-game" type="button">↻ Muat ulang kamera</button>
+        </div>
+        <p id="sensor-live-detail" role="status">Menunggu kamera…</p>
+      </header>
+      <div class="sensor-practice">
+        <div class="sensor-help"><h3>Arahkan telapak. Tahan sebentar.</h3>
+          <p id="calib-desc">Angkat telapak hingga penanda muncul. Arahkan pusat telapak ke gelembung uji dan tahan sekitar 0,36 detik sampai bar penuh.</p>
+          <p>Pastikan seluruh telapak terlihat jelas dan cukup terang. Jika sensor lambat, bandingkan mesin CPU dengan Otomatis.</p>
+          <p>Di HP, gunakan kamera depan. Di IFP, pilih kamera bawaan atau USB yang sesuai. Klik, sentuh, dan keyboard tetap tersedia.</p>
+        </div>
+        <button id="practice-target" class="sensor-target" type="button">
+          <span>GELEMBUNG UJI</span><strong>✋ Arahkan telapak ke sini</strong>
+          <div class="sensor-progress"><div id="practice-progress" style="width:0%"></div></div>
+          <span id="practice-timer-label">Bar penuh akan memulai permainan.</span>
+          <small>Klik untuk melewati latihan kamera.</small>
+        </button>
+      </div>
+      <footer class="sensor-actions"><button id="btn-calib-back" class="btn-game" type="button">← Menu</button><span>Tahan telapak pada jawaban pilihanmu saat bermain.</span><button id="btn-skip-practice" class="btn-game" type="button">Mulai bermain →</button></footer>
+    </section>
+
+    <!-- ================= 3. HUD & ARENA BERMAIN UTAMA (90-100% KAMERA) ================= -->
+    <section id="gameplay-screen" class="hidden w-full h-full flex flex-col justify-between pointer-events-none">
+      
+      <!-- HUD ATAS RINGKAS (Maks 10-12% Tinggi Layar) -->
+      <header class="interactive-el w-full bg-slate-950/85 backdrop-blur-md border-b border-white/20 px-3 py-2 flex items-center justify-between gap-2 z-20" style="min-height: 52px; max-height: 14%;">
+        <!-- Info Kiri: Mode & Pemain 1 -->
+        <div class="flex items-center gap-2 md:gap-3">
+          <div class="flex items-center gap-1.5 bg-emerald-900/90 border border-emerald-400 px-3 py-1 rounded-xl">
+            <span class="text-xs md:text-sm font-black text-emerald-300" id="hud-p1-name">P1: Raka</span>
+            <span class="text-sm md:text-base font-black text-amber-300" id="hud-p1-score">0</span>
+          </div>
+          <div id="hud-p1-qcount" class="text-xs font-bold bg-black/60 px-2.5 py-1 rounded-xl text-emerald-100 border border-white/10">
+            Benar: 0 | Soal #1
+          </div>
+        </div>
+
+        <!-- Info Tengah: Timer Durasi Misi & Indikator Sensor -->
+        <div class="flex items-center gap-2 text-center">
+          <div id="hud-session-timer-box" class="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-500 text-slate-950 font-black text-xs md:text-sm shadow-lg border-2 border-amber-200">
+            <span>⏱️ WAKTU MISI:</span>
+            <span id="hud-session-timer" class="font-mono text-sm md:text-base">10:00</span>
+          </div>
+          <span id="detector-badge" class="hidden lg:inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-700 text-white border border-emerald-300">
+            🖐️ Sensor Telapak Tangan Aktif
+          </span>
+          <span id="global-motion-alert" class="hidden px-3 py-1 rounded-full text-xs font-extrabold bg-amber-600 text-white">
+            🖐️ Tunjukkan Telapak Tangan Terbuka ke Kamera
+          </span>
+        </div>
+
+        <!-- Info Kanan: Lawan/COM/P2 & Kontrol Jeda -->
+        <div class="flex items-center gap-2">
+          <div id="hud-p2-box" class="flex items-center gap-1.5 bg-amber-900/90 border border-amber-400 px-3 py-1 rounded-xl">
+            <span class="text-xs md:text-sm font-black text-amber-200" id="hud-p2-name">COM: Arka</span>
+            <span class="text-sm md:text-base font-black text-white" id="hud-p2-score">0</span>
+          </div>
+          <button id="btn-finish-game" class="btn-game bg-emerald-700 hover:bg-emerald-600 text-xs md:text-sm px-3 min-h-[38px]" aria-label="Selesaikan Misi">
+            🏁 Selesai
+          </button>
+          <button id="btn-pause-game" class="btn-game bg-slate-800 hover:bg-slate-700 text-xs md:text-sm px-3 min-h-[38px]" aria-label="Jeda Permainan">
+            ⏸ Jeda
+          </button>
+        </div>
+      </header>
+
+      <!-- AREA ARENA TENGAH (80%+ Layar Kamera Bersih) -->
+      <main id="arena-playfield" class="relative flex-1 w-full h-full flex overflow-hidden">
+        <!-- Akan dirender dinamis oleh JS -->
+      </main>
+
+      <!-- BAR BAWAH SANGAT RINGKAS (Petunjuk Kontrol & Postur) -->
+      <footer class="interactive-el w-full bg-slate-950/75 px-3 py-1.5 flex items-center justify-between text-[11px] md:text-xs text-emerald-200 border-t border-white/15 z-20">
+        <span id="footer-control-hint">💡 Arahkan kursor telapak tangan (🖐️) ke dalam gelembung pilihanmu (~0,36 dtk) atau klik langsung.</span>
+        <div class="flex items-center gap-3">
+          <button id="btn-switch-posture-live" class="underline font-bold text-amber-300 hover:text-amber-200 cursor-pointer">
+            🪑 Ubah Mode Duduk/Berdiri
+          </button>
+          <button id="btn-camera-live" class="btn-game" type="button">📷 Hubungkan kamera</button><span id="lighting-indicator" class="font-bold text-emerald-300" role="status">🖐️ Menunggu Tangan...</span>
+        </div>
+      </footer>
+    </section>
+
+    <!-- ================= 4. MODAL JEDA ================= -->
+    <section id="pause-modal" class="interactive-el hidden absolute inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+      <div class="bg-emerald-950 border-4 border-amber-400 rounded-3xl max-w-md w-full p-6 text-center shadow-2xl space-y-4">
+        <h2 class="text-3xl font-bold text-amber-300">⏸ PERMAINAN DIJEDA</h2>
+        <p class="text-sm text-emerald-100">Timer, detektor kamera, dan progres lawan virtual dibekukan sementara.</p>
+        <div class="flex flex-col gap-3 pt-2">
+          <button id="btn-resume-game" class="btn-game bg-emerald-600 hover:bg-emerald-500 text-white text-lg w-full">
+            ▶ Lanjutkan Bermain
+          </button>
+          <button id="btn-end-from-pause" class="btn-game bg-sky-600 hover:bg-sky-500 text-white text-base w-full">
+            🏁 Akhiri Misi &amp; Lihat Pembahasan
+          </button>
+          <button id="btn-restart-session" class="btn-game bg-amber-600 hover:bg-amber-500 text-white text-base w-full">
+            🔄 Ulangi Sesi Ini
+          </button>
+          <button id="btn-quit-to-cover" class="btn-game bg-slate-800 hover:bg-slate-700 text-white text-base w-full">
+            🏠 Kembali ke Layar Utama
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 5. LAYAR HASIL & PEMBAHASAN ================= -->
+    <section id="results-screen" class="interactive-el hidden w-full h-full bg-slate-950/90 backdrop-blur-md p-4 md:p-8 overflow-y-auto z-40">
+      <div class="max-w-5xl mx-auto bg-emerald-950 border-4 border-amber-400 rounded-3xl p-5 md:p-8 shadow-2xl">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-white/20 pb-4">
+          <div>
+            <span id="result-badge" class="bg-amber-400 text-slate-950 font-black text-xs px-3 py-1 rounded-full uppercase">LAPORAN MISI EKOSISTEM</span>
+            <h2 id="result-title" class="text-3xl md:text-4xl font-bold text-amber-300 mt-1">Misi Selesai!</h2>
+            <p id="result-subtitle" class="text-sm md:text-base text-emerald-100">Berikut ringkasan skor dan pembahasan materi IPAS Kelas V SD.</p>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <button id="btn-play-again" class="btn-game bg-amber-500 hover:bg-amber-400 text-slate-950 text-base px-6">
+              🔄 Main Lagi
+            </button>
+            <button id="btn-result-home" class="btn-game bg-slate-800 hover:bg-slate-700 text-white text-base px-5">
+              🏠 Menu Utama
+            </button>
+          </div>
+        </div>
+
+        <!-- Papan Skor Akhir -->
+        <div id="result-scoreboard" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 my-5">
+          <!-- Diisi oleh JS -->
+        </div>
+
+        <!-- Daftar Pembahasan Soal yang Dijawab -->
+        <div class="mt-6">
+          <h3 class="text-xl font-bold text-amber-200 mb-3">📖 Pembahasan Hubungan Ekosistem &amp; Prediksi Populasi:</h3>
+          <div id="result-review-list" class="space-y-3 max-h-64 overflow-y-auto pr-2">
+            <!-- Diisi oleh JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 6. MODAL EDITOR & BANK 75 SOAL ================= -->
+    <section id="editor-modal" class="interactive-el hidden absolute inset-0 bg-black/85 backdrop-blur-md z-50 p-3 md:p-5 overflow-hidden">
+      <div class="max-w-6xl mx-auto bg-slate-900 border-2 border-amber-400 rounded-3xl p-4 md:p-5 shadow-2xl flex flex-col h-full">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/15 pb-3">
+          <div>
+            <h2 class="text-xl md:text-2xl font-bold text-amber-300">📚 Editor Bank Pembelajaran IPAS (75 Tantangan)</h2>
+            <p class="text-xs text-emerald-200">25 Mudah • 25 Sedang • 25 Sulit | Mendukung Tambah/Edit, Ekspor JSON, dan Impor JSON Tervalidasi.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="btn-export-json" class="btn-game bg-emerald-700 hover:bg-emerald-600 text-xs px-3 min-h-[38px]">
+              ⬇ Ekspor JSON
+            </button>
+            <label class="btn-game bg-sky-700 hover:bg-sky-600 text-xs px-3 min-h-[38px] cursor-pointer">
+              ⬆ Impor JSON
+              <input type="file" id="input-import-json" accept=".json" class="hidden">
+            </label>
+            <button id="btn-reset-bank" class="btn-game bg-rose-800 hover:bg-rose-700 text-xs px-3 min-h-[38px]">
+              ↺ Reset Default (75)
+            </button>
+            <button id="btn-close-editor" class="btn-game bg-slate-700 hover:bg-slate-600 text-xs px-4 min-h-[38px]">
+              ✖ Tutup
+            </button>
+          </div>
+        </div>
+
+        <!-- Notifikasi Validasi Editor -->
+        <div id="editor-status-msg" class="hidden my-2 px-4 py-2 rounded-lg text-xs font-bold"></div>
+
+        <!-- Filter & Daftar Soal -->
+        <div class="flex flex-wrap items-center justify-between gap-2 my-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold">Filter Tingkat:</span>
+            <button data-filter="ALL" class="editor-filter-btn px-3 py-1 rounded bg-amber-500 text-slate-950 font-bold text-xs">Semua (75)</button>
+            <button data-filter="Mudah" class="editor-filter-btn px-3 py-1 rounded bg-slate-800 text-white font-bold text-xs">Mudah (25)</button>
+            <button data-filter="Sedang" class="editor-filter-btn px-3 py-1 rounded bg-slate-800 text-white font-bold text-xs">Sedang (25)</button>
+            <button data-filter="Sulit" class="editor-filter-btn px-3 py-1 rounded bg-slate-800 text-white font-bold text-xs">Sulit (25)</button>
+          </div>
+          <span id="editor-count-label" class="text-xs text-amber-200 font-bold">Menampilkan 75 soal</span>
+        </div>
+
+        <div id="editor-list-container" class="flex-1 overflow-y-auto space-y-2 pr-2 border border-white/10 rounded-xl p-3 bg-black/40">
+          <!-- Daftar 75 Soal dirender di sini -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 7. MODAL PANDUAN SINGKAT ================= -->
+    <section id="guide-modal" class="interactive-el hidden absolute inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+      <div class="bg-emerald-950 border-4 border-emerald-400 rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[90%] overflow-y-auto">
+        <div class="flex items-center justify-between border-b border-white/15 pb-2">
+          <h2 class="text-2xl font-bold text-amber-300">📖 Cara Bermain: Sensor Telapak Tangan</h2>
+          <button id="btn-close-guide" class="btn-game bg-slate-800 text-xs px-3 min-h-[38px]">✖ Tutup</button>
+        </div>
+        <div class="space-y-3 text-sm text-emerald-100 leading-relaxed">
+          <p><strong>1. Sensor Murni Telapak Tangan (🖐️):</strong> Permainan ini menggunakan pelacak 21 titik sendi telapak tangan dan jari. Gerakan wajah, kepala, bahu, maupun badan <strong>tidak akan pernah memilih jawaban sendiri</strong>.</p>
+          <p><strong>2. Arahkan &amp; Tahan Telapak Tangan di Gelembung:</strong> Angkat telapak tangan terbuka di depan kamera hingga muncul lingkaran penanda 🖐️ berwarna hijau/emas. Masukkan penanda telapak tangan tersebut ke dalam gelembung jawaban (A, B, C, atau D) selama <strong>~0,36 detik</strong> hingga barnya penuh.</p>
+          <p><strong>3. Fase Baca Aman (1,2 Detik Awal):</strong> Saat soal baru muncul, waktu 30 detik berhenti sejenak agar kamu bisa membaca soal dengan tenang.</p>
+          <p><strong>4. Mode Aksesibilitas Duduk:</strong> Pilih <em>Mode Duduk</em> agar posisi gelembung jawaban berada di jangkauan telapak tangan saat duduk.</p>
+          <p><strong>5. Mode Duel 2 Pemain Serentak:</strong> Satu kamera dibagi menjadi Area Kiri (Pemain 1) dan Area Kanan (Pemain 2). Masing-masing pemain menggunakan telapak tangannya di sisi layarnya sendiri secara bersamaan!</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div></div>
+
+<script src="aset/js/sensor-camera.js" defer></script>
+<script src="aset/js/dwell-selector.js" defer></script>
+<script src="aset/js/game.js" defer></script>
+<script src="aset/js/animasi.js" defer></script>
+</body>
+</html>

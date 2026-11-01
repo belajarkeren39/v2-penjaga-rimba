@@ -1,0 +1,49 @@
+
+/* Ilustrasi anime asli + animasi 2D berbasis CSS. */
+#arena-container{
+ background:linear-gradient(#071f26a6,#092d20c4),url('../gambar/hutan-anime.webp') center/cover;
+}
+#cover-screen{
+ background:linear-gradient(90deg,rgba(6,28,23,.96) 0%,rgba(9,35,26,.90) 36%,rgba(10,36,25,.16) 68%,rgba(8,26,19,.32) 100%),linear-gradient(0deg,rgba(6,25,20,.95),transparent 45%),url('../gambar/hutan-anime.webp') center/cover;
+}
+.cover-header,.cover-hero,.mission-settings,.cover-footer{position:relative;z-index:2}
+.cover-header{background:#0d30241f}
+.mission-settings{background:#09271eea;backdrop-filter:blur(12px)}
+.hero-copy{filter:drop-shadow(0 2px 6px #021b1c66)}
+.hero-art{position:relative;justify-content:flex-end;gap:8px;padding-top:0}
+.anime-cast{width:100%;height:472px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:end}
+.character-card{min-width:0;height:100%;margin:0;display:grid;grid-template-rows:minmax(0,1fr) 48px;gap:7px;text-align:center}
+.character-stage{position:relative;display:grid;place-items:center;min-height:0;isolation:isolate}
+.character-stage:after{content:'';position:absolute;bottom:4px;left:22%;width:56%;height:16px;background:radial-gradient(ellipse,#081e1e80,transparent 70%);z-index:-1;animation:shadowBreathe 4s ease-in-out infinite}
+.character-sprite{display:block;width:100%;height:100%;padding:0;border:none;background:none;cursor:pointer;border-radius:28px;position:relative}
+.character-sprite:focus-visible{outline:2px solid #f9e6ab;outline-offset:0;background:#f9e6ab0d}
+.character-image{display:block;width:100%;height:100%;object-fit:contain;transform-origin:50% 93%;filter:drop-shadow(0 8px 8px #06271d66);animation:guardianIdle 4s ease-in-out infinite;pointer-events:none}
+.character-arka .character-image{animation-name:knightIdle;animation-delay:-1.6s}
+.character-sprite:hover .character-image{filter:drop-shadow(0 0 15px #ffeeb77a) drop-shadow(0 8px 8px #06271d66)}
+.character-sprite.is-greeting .character-image{animation:guardianGreet .8s ease-in-out}
+.character-card figcaption{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;background:#0a2b20df;border:1px solid #c5daa86b;border-radius:14px;margin:0 22px;padding:6px 12px;backdrop-filter:blur(6px)}
+.character-card figcaption strong{font-size:15px;letter-spacing:1.4px;color:#f2e8be}
+.character-card figcaption small{font-size:10px;letter-spacing:.5px;color:#c0d4b5}
+.character-arka figcaption{border-color:#e7c97b8c}
+.art-caption{background:#08271dba;border:1px solid #c5daa82b;border-radius:20px;padding:0 18px;font-size:12px;min-height:30px;line-height:28px;text-align:center;max-width:100%;white-space:nowrap}
+.anime-atmosphere{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.firefly{position:absolute;width:5px;height:5px;border-radius:50%;background:#fff0ac;box-shadow:0 0 12px 4px #fbe39070;animation:fireflyDrift var(--duration,8s) ease-in-out infinite;animation-delay:var(--delay,0s);left:var(--x);top:var(--y);opacity:0}
+.floating-leaf{position:absolute;left:var(--x);top:-35px;width:20px;height:10px;background:linear-gradient(110deg,#9ab96b,#d5d79e);border-radius:0 100% 0 100%;opacity:0;animation:leafFall var(--duration,18s) linear infinite;animation-delay:var(--delay,0s)}
+.hud-anime-avatar{width:30px;height:40px;object-fit:cover;object-position:50% 16%;border-radius:7px;background:#ffffff12;flex-shrink:0}
+#hud-p1-name,#hud-p2-name{font-size:13px}
+.motion-paused .character-image,.motion-paused .character-stage:after,.motion-paused .firefly,.motion-paused .floating-leaf{animation-play-state:paused!important}
+@keyframes guardianIdle{0%,100%{transform:translateY(0) rotate(-.7deg) scaleY(1)}50%{transform:translateY(-5px) rotate(.7deg) scaleY(1.012)}}
+@keyframes knightIdle{0%,100%{transform:translateY(-2px) rotate(.5deg)}50%{transform:translateY(-6px) rotate(-.6deg)}}
+@keyframes guardianGreet{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-10px) rotate(-3deg)}55%{transform:translateY(-5px) rotate(3deg)}75%{transform:translateY(-8px) rotate(-1.5deg)}}
+@keyframes shadowBreathe{50%{transform:scaleX(.9);opacity:.7}}
+@keyframes fireflyDrift{0%,100%{opacity:0;transform:translate(0,0)}20%,80%{opacity:.8}50%{opacity:.45;transform:translate(20px,-30px)}}
+@keyframes leafFall{0%{opacity:0;transform:translate(0,0) rotate(0)}10%,80%{opacity:.55}100%{opacity:0;transform:translate(-140px,940px) rotate(450deg)}}
+@media(prefers-reduced-motion:reduce){.character-image,.character-stage:after,.firefly,.floating-leaf{animation:none!important}.firefly{opacity:.3}}
+
+.anime-cast{grid-template-rows:minmax(0,1fr);flex-shrink:0}
+.character-card{min-height:0}
+.character-sprite{position:absolute;inset:0;width:100%;height:100%}
+.character-image{max-width:100%;max-height:100%}
+.cover-tool{background:#0b2b23d9;border-color:#abc7a34d}
+.cover-tool:hover{background:#194b36f2}
+.subject-badge{text-shadow:0 1px 4px #000,0 0 10px #000}

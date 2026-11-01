@@ -1,0 +1,20 @@
+{
+  "generator": "Built-in image_gen",
+  "prompts": [
+    {
+      "key": "raka",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: transparent full-body 2D anime character illustration for an Indonesian elementary-school educational ecosystem game. Draw Raka Rimba, an original friendly young male forest guardian: expressive big warm brown anime eyes, tousled dark brown hair, warm tan skin, green leaf-shaped ranger hat with one sprouting leaf, forest-green adventurer tunic over a cream shirt, golden scarf, brown small crossbody satchel, dark green shorts and sturdy brown boots. Polished premium hand-drawn 2D anime game art, clean confident outlines, soft cel shading, warm highlights, charming and adventurous, about 4.5 heads tall. Full body centered, three-quarter view gently facing right toward companion, smiling, one open palm raised in a welcoming wave, other hand relaxed. Single character only, all fingers anatomically coherent. True transparent background with alpha, no ground, no scenery, no shadow outside character, no lettering, no border, no watermark. Leave generous 10% clear margin around the entire character and hat, include both boots completely. Portrait composition 2:3."
+    },
+    {
+      "key": "arka",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: transparent full-body 2D anime character illustration for an Indonesian elementary-school educational ecosystem game. Draw Sir Arka, an original friendly young male fantasy forest knight, a cheerful companion to a green-clad forest ranger: warm tan face, big amber anime eyes, short dark brown hair visible under an open-faced silver-green helmet with a small golden feather crest, pale sage and silver lightweight rounded armor, ivory tunic, golden ochre scarf and small cape, brown belt and boots, carrying a small rounded gold shield with a green leaf emblem, no sword. Polished premium hand-drawn 2D anime game art, clean confident outlines, soft cel shading, warm highlights, charming and adventurous, about 4.5 heads tall. Full body centered, three-quarter view gently facing left toward companion, cheerful confident smile, relaxed welcoming stance, one hand lightly raised near chest. Single character only. True transparent background with alpha, no ground, no scenery, no shadow outside character, no lettering, no border, no watermark. Leave generous 10% clear margin around entire character and crest, include both boots completely. Portrait composition 2:3."
+    },
+    {
+      "key": "forest",
+      "transparent_background": false,
+      "prompt": "Use case: stylized-concept. Asset type: 16:9 landscape background for a 2D anime educational forest adventure game, no characters. A beautiful magical but natural tropical Indonesian rainforest clearing at golden morning light, richly hand-painted anime environment art, painterly soft shapes with refined cel-shaded botanical details. Tall elegant trees frame left and right edges, lush emerald and jade foliage overhead, ferns and broad tropical leaves near foreground edges, delicate tiny golden fireflies, mossy roots, a little winding earth path in the center leading into luminous misty forest depth. An inviting grassy foreground clearing on the right half where two character sprites can stand. Darker calm foliage and low-contrast spacious composition on the left half to support readable title overlay. Layered atmospheric depth, shafts of warm sunlight through canopy, gold-green palette that matches green-clad ranger and sage-armored knight. Premium 2D anime game background, gorgeous and child-friendly, not photorealistic, not 3D. Wide cinematic 16:9 frame, no text, no UI, no symbols, no human or animal characters, no watermark."
+    }
+  ]
+}
